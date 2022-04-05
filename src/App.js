@@ -1,14 +1,25 @@
 import './App.css';
 import app from './firebase.init';
-import { getAuth } from "firebase/auth"
-import Login from './Components/Login/Login';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 
 const auth = getAuth(app)
 
 function App() {
+  const provider = new GoogleAuthProvider()
+
+  const handleGoogleLogin = () => {
+    signInWithPopup(auth,provider)
+    .then(result => {
+      const user = result.user
+      console.log(user)
+    })
+    .catch(err => {
+      console.log("Error...!",err)
+    })
+  }
   return (
-    <div className="App">
-      <Login/>
+    <div>
+      <button onClick={handleGoogleLogin}>Login with Google</button>
     </div>
   );
 }
